@@ -1,0 +1,33 @@
+# api/utils/common_female_names.py
+
+FEMALE_NAMES = {
+    "abigail","ada","adelaide","adriana","aisha","alicia","alice","amanda",
+    "amber","amelia","ana","anastasia","angela","anna","anne","antonia",
+    "april","armida","ashley","audrey","augusta","ava",
+    "barbara","bethany","bianca","blanca","bonnie","brenda","briana","brittany",
+    "camila","candice","carla","carmen","carol","caroline","cassandra","catherine",
+    "celeste","charlotte","chelsea","cheryl","chloe","christina","christine","clara",
+    "clarissa","coleen","connie","courtney","cristina","crystal","cynthia",
+    "dana","danielle","daphne","deanna","debora","deborah","delia","denise","diana",
+    "diane","dina","dionne","dorothy","edna","elaine","eleanor","elena","elisabeth",
+    "elise","elizabeth","ella","ellen","eloise","emily","emma","erica","erika","erin",
+    "esther","eva","evelyn","felicia","fernanda","flora","frances","frankie","gabriela",
+    "gabriella","gabrielle","genevieve","georgia","geraldine","gillian","ginevra",
+    "gloria","grace","greta","gwendolyn","hannah","harriet","heather","helen","ilana",
+    "iliana","iris","irene","isabel","isabella","isabelle","jasmine","jennifer","jessica",
+    "joanna","jocelyn","johanna","jolene","jordan","josephine","joyce","judith","julia",
+    "juliana","julietta","juliet","julius","justine","karen","karla","katie","katrina",
+    "kelly","kelsey","kendra","kenya","kimberly","kirsten","kristen","kristin","laila",
+    "lauren","laurie","lea","leah","lenora","leslie","liana","linda","lindsay","lisa",
+    "livia","lizbeth","lorena","loretta","lucia","lucille","lucy","luna","lydia","madeline",
+    "maggie","maia","maisie","maria","mariana","marilyn","marina","marion","marissa",
+    "marjorie","martha","martina","mary","matilda","maya","melanie","melissa","meredith",
+    "mia","michelle","mildred","miranda","miriam","monica","nadia","nancy","naomi","natalia",
+    "natalie","nathalie","neha","nicole","nina","noelle","nora","norma","olivia","pamela",
+    "patricia","paula","peggy","penny","phoebe","priscilla","rachael","rachel","rebecca",
+    "regina","renee","rosa","rosalie","rose","roxanne","ruby","sabrina","samantha","sandra",
+    "sara","sarah","sasha","scarlett","sharon","sheila","sierra","simone","sofia","sonia",
+    "sophia","stacey","stephanie","stella","susan","susanna","suzanne","sybil","talia",
+    "tamara","tanya","tara","taylor","teresa","thea","theresa","tiffany","tracy","valentina",
+    "valerie","vanessa","vera","victoria","violet","vivian","wendy","willow","yvonne"
+}
