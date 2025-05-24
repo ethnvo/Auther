@@ -1,7 +1,0 @@
-./config/asgi.py:ASGI config for backend project.
-./config/settings.py:Django settings for backend project.
-./config/settings.py:ROOT_URLCONF = 'config.urls'
-./config/settings.py:        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-./config/settings.py:WSGI_APPLICATION = 'config.wsgi.application'
-./config/settings.py:        'ENGINE': 'django.db.backends.sqlite3',
-./config/wsgi.py:WSGI config for backend project.

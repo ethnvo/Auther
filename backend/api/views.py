@@ -1,21 +1,67 @@
-from rest_framework import generics, filters
-from .models import Paper
-from .serializers import PaperSerializer
-from django.db.models import Q
+# api/views.py
 
-class PaperListView(generics.ListAPIView):
-    serializer_class = PaperSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['title', 'abstract', 'authors']  # ✅ search across all 3 fields
+from django.core.cache import cache
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import permissions, viewsets, mixins
+
+from .models import Paper, Favorite, RecentlyViewed
+from .serializers import (
+    PaperSerializer,
+    FavoriteSerializer,
+    RecentlyViewedSerializer,
+)
+from .scripts.load_papers import fetch_and_filter
+
+
+class RecentlyViewedViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet
+):
+    """
+    POST to record a click, GET to list recent clicks.
+    """
+    serializer_class = RecentlyViewedSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Paper.objects.filter(gender_inference_possible=True)
+        return RecentlyViewed.objects.filter(user=self.request.user)
 
-        if self.request.query_params.get('only_women') == "true":
-            queryset = queryset.filter(has_woman_author=True)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-        year = self.request.query_params.get('year')
-        if year:
-            queryset = queryset.filter(date__year=year)
 
-        return queryset.order_by('-has_woman_author', '-id')
+class SearchPapersView(APIView):
+    """
+    Cache-backed search endpoint. Does not write to the DB.
+    """
+    permission_classes = []  # or [permissions.AllowAny]
+
+    def get(self, request):
+        q = request.query_params.get("search", "").strip() or "machine learning"
+        only_women = request.query_params.get("only_women") == "true"
+        year = request.query_params.get("year", "")
+
+        cache_key = f"search:{q}:{only_women}:{year}"
+        papers = cache.get(cache_key)
+        if papers is None:
+            papers = fetch_and_filter(q, only_women, year)
+            cache.set(cache_key, papers, timeout=3600)
+        return Response(papers)
+
+
+class FavoriteViewSet(viewsets.ModelViewSet):
+    """
+    CRUD for user favorites.
+    """
+    serializer_class = FavoriteSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Favorite.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        paper = Paper.objects.get(id=self.request.data["paper_id"])
+        serializer.save(user=self.request.user, paper=paper)

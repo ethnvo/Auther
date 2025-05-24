@@ -27,7 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "authher-cache",
+        "TIMEOUT": 3600,  # cache for 1 hour
+    }
+}
 # Application definition
 
 INSTALLED_APPS = [
