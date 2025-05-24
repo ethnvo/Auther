@@ -47,5 +47,5 @@ pip install -r requirements.txt
 # Run Django server
 python manage.py migrate
 python manage.py runserver
-# Open http://localhost:8000/api/papers/
+# Open http://localhost:3000
 ```
