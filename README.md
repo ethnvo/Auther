@@ -3,7 +3,7 @@
 **AuthHer** is a search engine for academic papers that prioritizes research authored by women.  
 Our goal is to amplify women-led scholarship by ranking papers with women authors higher in search results.
 
-> Built with 💻 Next.js + Django | Designed in Figma | Created for [Hackathon Name]
+> Built with 💻 Next.js + Django | Designed in Figma | Created for VenusHacks 2025
 
 ---
 
