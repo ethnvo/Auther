@@ -1,105 +1,134 @@
 import requests
 from api.utils.resolve_author_gender import resolve_author_gender
 
-SEMANTIC_SCHOLAR_API = "https://api.semanticscholar.org/graph/v1/paper/search"
-GENDERIZE_API = "https://api.genderize.io"
-DEFAULT_LIMIT = 10  # Sweet spot - not too many, not too few
-MAX_GENDERIZE_CALLS = 8  # Keep API calls reasonable
+SEMANTIC_SCHOLAR_SEARCH = "https://api.semanticscholar.org/graph/v1/paper/search"
+SEMANTIC_SCHOLAR_PAPER  = "https://api.semanticscholar.org/graph/v1/paper"
+OPENALEX_WORKS         = "https://api.openalex.org/works"
+GENDERIZE_API          = "https://api.genderize.io"
 
-def fetch_and_filter(query: str,
-                     only_women: bool = False,
-                     year: str | None = None,
-                     limit: int = DEFAULT_LIMIT) -> list[dict]:
-    resp = requests.get(SEMANTIC_SCHOLAR_API, params={
-        "query": query,
-        "limit": limit,
-        "fields": "title,abstract,authors,year,paperId"
-    }, timeout=10)
-    data = resp.json().get("data", []) or []
+DEFAULT_LIMIT       = 5
+MAX_GENDERIZE_CALLS = 10
+
+def fetch_and_filter(query: str, only_women=False, year=None, limit=DEFAULT_LIMIT):
+    # 1) Initial search (now includes externalIds to grab DOI)
+    resp = requests.get(
+        SEMANTIC_SCHOLAR_SEARCH,
+        params={
+            "query": query,
+            "limit": limit,
+            "fields": "title,abstract,authors,year,paperId,externalIds"
+        },
+        timeout=10,
+    )
+    papers = resp.json().get("data", []) or []
     results = []
-    genderize_calls = 0  # Track API usage
 
-    for paper in data:
-        title      = (paper.get("title") or "").strip()
-        abstract   = paper.get("abstract") or "No abstract available."
-        authors_raw= paper.get("authors") or []
-        year_val   = paper.get("year")
-        paper_id   = paper.get("paperId")
+    for p in papers:
+        title       = (p.get("title") or "").strip()
+        abstract    = p.get("abstract") or "No abstract available."
+        authors_raw = p.get("authors") or []
+        year_val    = p.get("year")
+        paper_id    = p.get("paperId")
+        externalIds = p.get("externalIds", {})
 
         if not authors_raw:
             continue
 
-        genders = []
-        # 1) ID-based
-        for a in authors_raw:
-            aid = a.get("authorId")
-            gi  = resolve_author_gender(aid) if aid else None
-            if gi:
-                # Store the author name with the gender info
-                gi["name"] = a["name"]
-                genders.append(gi)
-        
-        # 2) Name-based fallback for *all* authors where we have no gender yet
-        for a in authors_raw:
-            # Stop if we've hit our API limit
-            if genderize_calls >= MAX_GENDERIZE_CALLS:
-                break
-                
-            # skip if we already got something for that author
-            if any(g for g in genders if g.get("name") == a["name"]):
-                continue
-            
-            name_parts = a["name"].split()
-            first = name_parts[0] if name_parts else ""
-            
-            # Skip initials and very short names
-            if not first.isalpha() or len(first) <= 2:
-                continue
-                
-            try:
-                r = requests.get(GENDERIZE_API, params={"name": first}, timeout=5)
-                genderize_calls += 1  # Increment counter
-                if r.status_code == 200:
-                    gender_data = r.json()
-                    if gender_data.get("gender") in ["female", "male"]:
-                        genders.append({
-                            "gender": gender_data["gender"],
-                            "confidence": "inferred",
-                            "name": a["name"]
-                        })
-            except:
-                pass
+        # 2) If *all* authors are just initials, pull full info from SS detail
+        all_initials = all(len(a["name"].split()[0]) <= 2 for a in authors_raw)
+        if all_initials and paper_id:
+            det = requests.get(
+                f"{SEMANTIC_SCHOLAR_PAPER}/{paper_id}",
+                params={"fields": "authors"},
+                timeout=5
+            )
+            if det.ok:
+                ss_auths = det.json().get("authors", []) or []
+                authors_raw = [
+                    {
+                        "authorId": auth.get("author", {}).get("authorId"),
+                        "name":     auth.get("author", {}).get("name")
+                    }
+                    for auth in ss_auths
+                    if auth.get("author", {}).get("name")
+                ]
 
-        has_woman      = any(g["gender"] == "female" for g in genders)
-        has_man        = any(g["gender"] == "male" for g in genders)
-        gender_possible= bool(genders)
+        # 3) Still all initials? try OpenAlex by DOI
+        all_initials = all(
+            len(a["name"].split()[0]) <= 2
+            for a in authors_raw
+        )
+        doi = externalIds.get("DOI")
+        if all_initials and doi:
+            oax = requests.get(f"{OPENALEX_WORKS}/doi:{doi}", timeout=5)
+            if oax.ok:
+                data = oax.json().get("authorships", [])
+                authors_raw = [
+                    {
+                        "name": auth["author"]["display_name"],
+                        "authorId": None
+                    }
+                    for auth in data
+                    if auth.get("author", {}).get("display_name")
+                ]
 
-        # Apply year filter
-        if year and str(year_val) != str(year):
-            continue
-            
-        # Keep papers that either:
-        # 1. Have confirmed women authors, OR
-        # 2. Have unknown gender (benefit of doubt for initials/unclear names)
-        # Only exclude papers that are definitively all-male
+        # 4) Now run your gender‐detection loop
+        has_woman = False
+        gender_possible = False
+        calls = 0
+
+        for a in authors_raw:
+            # ID‐based
+            if a.get("authorId"):
+                gi = resolve_author_gender(a["authorId"])
+                if gi:
+                    gender_possible = True
+                    if gi["gender"] == "female":
+                        has_woman = True
+                        break
+                    continue
+
+            # Name‐based fallback
+            first = a["name"].split()[0]
+            if first.isalpha() and len(first) > 2 and calls < MAX_GENDERIZE_CALLS:
+                calls += 1
+                try:
+                    gr = requests.get(GENDERIZE_API, params={"name": first}, timeout=5)
+                    if gr.ok:
+                        gender = gr.json().get("gender")
+                        if gender:
+                            gender_possible = True
+                            if gender == "female":
+                                has_woman = True
+                                break
+                except requests.RequestException:
+                    pass
+
+        # 5) Skip definite all‐male
         if gender_possible and not has_woman:
             continue
-            
-        # Apply only_women filter more strictly if requested
+        # Year filter
+        if year and str(year_val) != str(year):
+            continue
+        # Strict women‐only
         if only_women and not has_woman:
             continue
 
-        link = (f"https://www.semanticscholar.org/paper/{paper_id}"
-                if paper_id else
-                f"https://www.google.com/search?q={title.replace(' ', '+')}")
+        # 6) Build the link
+        link = (
+            f"https://www.semanticscholar.org/paper/{paper_id}"
+            if paper_id else
+            f"https://www.google.com/search?q={title.replace(' ', '+')}"
+        )
 
+        # 7) Collect result
         results.append({
-            "title": title,
-            "abstract": abstract,
-            "authors": [a["name"] for a in authors_raw],
-            "date": f"{year_val}-01-01" if year_val else None,
-            "has_woman_author": has_woman,
-            "link": link,
+            "title":            title,
+            "abstract":         abstract,
+            "authors":          [a["name"] for a in authors_raw],
+            "date":             f"{year_val}-01-01" if year_val else None,
+            "has_woman_author": True if has_woman else "uncertain",
+            "link":             link,
         })
 
     return results
