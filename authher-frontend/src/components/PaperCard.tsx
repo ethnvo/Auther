@@ -73,7 +73,7 @@ const PaperCard: React.FC<PaperCardProps> = ({ paper }) => {
             d="M6 18L18 6M6 6l12 12"
           />
         </svg>
-        Unverified
+        Unconfirmed
       </span>
     );
   };

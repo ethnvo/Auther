@@ -18,7 +18,7 @@ export default function HomePage() {
     <div className="relative min-h-screen bg-white dark:bg-black overflow-hidden transition-colors duration-300">
       {/* Gradient overlay */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="h-full w-full bg-gradient-to-t from-orange-500/20 via-transparent to-transparent dark:from-purple-600/20 dark:via-transparent dark:to-transparent" />
+        <div className="h-full w-full bg-gradient-to-t from-rose-300/20  via-stone-100 to-stone-100 dark:from-purple-600/20 dark:via-transparent dark:to-transparent" />
       </div>
 
       {/* Main content */}
