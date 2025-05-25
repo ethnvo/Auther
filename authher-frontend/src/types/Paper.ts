@@ -1,4 +1,5 @@
 export interface Paper {
+  id: any;
   title: string;
   abstract: string;
   authors: string[];

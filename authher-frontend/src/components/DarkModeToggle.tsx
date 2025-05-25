@@ -5,13 +5,11 @@ import { useState, useEffect } from "react";
 export default function DarkModeToggle() {
   const [darkMode, setDarkMode] = useState(false);
 
-  // On first load, check localStorage
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved === "dark") setDarkMode(true);
   }, []);
 
-  // Whenever theme changes, update <html> class and localStorage
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -23,12 +21,21 @@ export default function DarkModeToggle() {
   }, [darkMode]);
 
   return (
-    <button
-      onClick={() => setDarkMode(!darkMode)}
-      className="absolute top-4 right-4 bg-gray-300 dark:bg-gray-700 p-2 rounded-full shadow-md"
-      aria-label="Toggle dark mode"
+    <div
+      className={`absolute top-4 right-4 p-[2px] rounded-full transition-all duration-300 ${
+        darkMode
+          ? "bg-gradient-to-r from-purple-500 to-blue-500"
+          : "bg-gradient-to-r from-orange-400 to-pink-500"
+      }`}
     >
-      {darkMode ? "☀️" : "🌙"}
-    </button>
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        className={`rounded-full p-2 shadow-md transition-all duration-300
+          ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
+        aria-label="Toggle dark mode"
+      >
+        {darkMode ? "☀️" : "🌙"}
+      </button>
+    </div>
   );
 }
