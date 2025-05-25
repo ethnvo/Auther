@@ -36,11 +36,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
         onKeyDown={handleKeyPress}
         placeholder={placeholder}
         autoFocus={autoFocus}
-        className="flex-grow px-4 py-2 text-black border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        // EDIT: Adjust input styling here
+        className="flex-grow px-4 py-2 text-black dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
       <button
         onClick={handleSubmit}
-        className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+        // EDIT: Adjust button styling here
+        className="bg-indigo-600 text-white px-4 py-2 rounded-lg transition-all duration-300 hover:bg-indigo-700 dark:hover:bg-indigo-500"
       >
         Search
       </button>
