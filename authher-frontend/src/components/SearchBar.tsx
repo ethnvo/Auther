@@ -42,7 +42,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       <button
         onClick={handleSubmit}
         // EDIT: Adjust button styling here
-        className="bg-indigo-600 text-white px-4 py-2 rounded-lg transition-all duration-300 hover:bg-indigo-700 dark:hover:bg-indigo-500"
+        className="px-4 py-2 rounded-md bg-rose-400 text-white transition-all duration-300 hover:bg-rose-600 dark:bg-purple-600 dark:hover:bg-purple-500 focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-purple-500 shadow-sm"
       >
         Search
       </button>

@@ -28,7 +28,9 @@ export default function HomePage() {
             className="w-64 scale-150 mb-6 hidden dark:block"
           />
         </div>
-
+        <p className="text-center text-lg text-gray-600 dark:text-gray-400 max-w-md">
+          Start your search with women-led research.
+        </p>
         {/* Search bar below with clean spacing */}
         <div className="mt-12 w-full max-w-xl">
           <SearchBar autoFocus placeholder="Search academic topics..." />
