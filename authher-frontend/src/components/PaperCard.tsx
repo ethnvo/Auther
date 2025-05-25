@@ -26,7 +26,7 @@ const PaperCard: React.FC<PaperCardProps> = ({ paper }) => {
         rel="noopener noreferrer"
         className="block"
       >
-        <div className="font-sans bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow p-4 space-y-2 transition-colors duration-300">
+        <div className="font-sans bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow p-4 space-y-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] transform ">
           <h2 className="text-lg font-bold text-black dark:text-white">
             {paper.title}
           </h2>

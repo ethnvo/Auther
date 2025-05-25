@@ -45,7 +45,7 @@ export default function ResultsPage() {
       {/* Page content */}
       <div className="relative z-10 text-black dark:text-white transition-colors duration-300">
         <DarkModeToggle />
-        <div className="p-6 max-w-4xl mx-auto space-y-6">
+        <div className="p-6 w-full max-w-6xl space-y-6 items-start text-left">
           <SearchBar initialValue={query} />
           {loading && (
             <div className="space-y-4">
