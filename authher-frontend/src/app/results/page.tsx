@@ -41,7 +41,7 @@ export default function ResultsPage() {
     <div className="relative min-h-screen bg-white dark:bg-black overflow-hidden transition-colors duration-300">
       {/* Gradient overlay */}
       <div className="fixed bottom-0 left-0 w-full h-[40vh] pointer-events-none z-0">
-        <div className="h-full w-full bg-gradient-to-t from-orange-400/20 to-transparent dark:from-purple-600/20 dark:to-transparent" />
+        <div className="h-full w-full bg-gradient-to-t from-rose-300/20 to-transparent dark:from-[#9C56B5]/20 dark:to-transparent" />
       </div>
 
       {/* Page content */}
