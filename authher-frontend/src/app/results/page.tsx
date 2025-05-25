@@ -10,6 +10,8 @@ import DarkModeToggle from "@/components/DarkModeToggle";
 import { AnimatePresence } from "framer-motion";
 import SkeletonCard from "@/components/SkeletonCard";
 import Link from "next/link";
+import { motion } from "framer-motion";
+
 export default function ResultsPage() {
   const searchParams = useSearchParams();
   const query = searchParams?.get("query") ?? "";
@@ -47,21 +49,23 @@ export default function ResultsPage() {
         <DarkModeToggle />
         <div className="p-6 w-full max-w-4xl mx-auto space-y-6 items-start text-left">
           <div className="flex items-center gap-4 pl-6 mb-4">
-            {/* Logos, scaled down and grouped */}
-            <div className="flex items-center gap-2">
-              <Link href="/" className="flex items-center gap-2">
-                <img
-                  src="/autherlogolight.svg"
-                  alt="Auther Logo Light"
-                  className=" dark:hidden"
-                />
-                <img
-                  src="/autherlogodark.svg"
-                  alt="Auther Logo Dark"
-                  className="scale-100 hidden dark:block"
-                />
-              </Link>
-            </div>
+            {/* Logos, scaled  and grouped */}
+            <motion.div>
+              <div className="flex items-center gap-2 hover:scale-105 transition-all duration-200">
+                <Link href="/" className="flex items-center gap-2">
+                  <img
+                    src="/autherlogolight.svg"
+                    alt="Auther Logo Light"
+                    className=" dark:hidden"
+                  />
+                  <img
+                    src="/autherlogodark.svg"
+                    alt="Auther Logo Dark"
+                    className="scale-100 hidden dark:block"
+                  />
+                </Link>
+              </div>
+            </motion.div>
 
             {/* Search bar pushed left to align with cards */}
             <SearchBar initialValue={query} />

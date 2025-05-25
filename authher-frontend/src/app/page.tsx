@@ -2,8 +2,18 @@
 
 import DarkModeToggle from "../components/DarkModeToggle";
 import SearchBar from "../components/SearchBar";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
+  const [recentPapers, setRecentPapers] = useState<any[]>([]);
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("recentPapers") || "[]");
+    setRecentPapers(saved);
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-white dark:bg-black overflow-hidden transition-colors duration-300">
       {/* Gradient overlay */}
@@ -35,6 +45,36 @@ export default function HomePage() {
         <div className="mt-12 w-full max-w-xl">
           <SearchBar autoFocus placeholder="Search academic topics..." />
         </div>
+        {recentPapers.length > 0 && (
+          <div className="mt-16 w-full max-w-xl text-left">
+            <h3 className="text-md font-semibold mb-2 text-gray-700 dark:text-gray-300">
+              Recently Viewed
+            </h3>
+            <ul className="space-y-3">
+              {recentPapers.map((paper, idx) => (
+                <li key={idx}>
+                  <Link
+                    href={paper.link}
+                    target="_blank"
+                    className="block text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    <p className="font-medium">{paper.title}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {paper.authors?.join(", ")}
+                    </p>
+                    <p className="text-xs italic">
+                      {paper.has_woman_author === true
+                        ? "✅ Verified Women-Led"
+                        : paper.has_woman_author === false
+                          ? "🚫 No woman author"
+                          : "❓ Possibly Women Led"}
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

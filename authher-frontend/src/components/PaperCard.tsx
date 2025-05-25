@@ -1,5 +1,7 @@
 import React from "react";
 import { Paper } from "../types/Paper";
+import { useCallback } from "react";
+
 import { motion } from "framer-motion";
 
 interface PaperCardProps {
@@ -25,6 +27,26 @@ const PaperCard: React.FC<PaperCardProps> = ({ paper }) => {
         target="_blank"
         rel="noopener noreferrer"
         className="block"
+        onClick={() => {
+          try {
+            const existing = JSON.parse(
+              localStorage.getItem("recentPapers") || "[]"
+            );
+            const compact = {
+              title: paper.title,
+              link: paper.link,
+              authors: paper.authors,
+              has_woman_author: paper.has_woman_author,
+            };
+            const updated = [
+              compact,
+              ...existing.filter((p: any) => p.link !== paper.link),
+            ].slice(0, 5);
+            localStorage.setItem("recentPapers", JSON.stringify(updated));
+          } catch (e) {
+            console.error("Failed to save recent paper:", e);
+          }
+        }}
       >
         <div className="font-sans bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow p-4 space-y-2 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] transform ">
           <h2 className="text-lg font-bold text-black dark:text-white">
