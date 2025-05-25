@@ -39,15 +39,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
         // EDIT: Adjust input styling here
         className="flex-grow px-5 py-2.5 bg-white dark:bg-gray-800 text-black dark:text-white 
            placeholder-gray-400 dark:placeholder-gray-500 border border-gray-300 dark:border-gray-700 
-           rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-purple-500 
+           rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-400  dark:focus:ring-[#9C56B5] 
            transition-all duration-300"
       />
       <button
         onClick={handleSubmit}
         // EDIT: Adjust button styling here
         className="px-5 py-2.5 rounded-xl bg-rose-500 text-white font-medium 
-        transition-all duration-300 hover:bg-rose-600 dark:bg-purple-600 dark:hover:bg-purple-500 
-        focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-purple-500 
+        transition-all duration-300 hover:bg-orange-500 dark:bg-[#9C56B5] dark:hover:bg-indigo-400
+        focus:outline-none focus:ring-2 focus:ring-rose-400  dark:focus:ring-[#9C56B5]
         shadow-md"
       >
         Search

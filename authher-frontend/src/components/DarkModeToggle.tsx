@@ -24,7 +24,7 @@ export default function DarkModeToggle() {
     <div
       className={`absolute top-4 right-4 p-[2px] rounded-full transition-all duration-300 ${
         darkMode
-          ? "bg-gradient-to-r from-purple-500 to-blue-500"
+          ? "bg-gradient-to-r to-[#9C56B5]  from-indigo-400"
           : "bg-gradient-to-r from-orange-400 to-pink-500"
       }`}
     >
