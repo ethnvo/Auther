@@ -7,6 +7,8 @@ import { Paper } from "../../types/Paper";
 import PaperCard from "../../components/PaperCard";
 import SearchBar from "../../components/SearchBar";
 import DarkModeToggle from "@/components/DarkModeToggle";
+import { AnimatePresence } from "framer-motion";
+import SkeletonCard from "@/components/SkeletonCard";
 
 export default function ResultsPage() {
   const searchParams = useSearchParams();
@@ -45,19 +47,24 @@ export default function ResultsPage() {
         <div className="p-6 max-w-4xl mx-auto space-y-6">
           <SearchBar initialValue={query} />
           {loading && (
-            <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-              Loading...
-            </p>
+            <div className="space-y-4">
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </div>
           )}
+
           {!loading && papers.length === 0 && (
             <p className="text-center text-sm text-gray-600 dark:text-gray-400">
               No results found for "{query}"
             </p>
           )}
           <div className="space-y-4">
-            {papers.map((paper, i) => (
-              <PaperCard key={i} paper={paper} />
-            ))}
+            <AnimatePresence mode="wait">
+              {papers.map((paper, i) => (
+                <PaperCard key={`${query}-${i}`} paper={paper} />
+              ))}
+            </AnimatePresence>
           </div>
         </div>
       </div>
