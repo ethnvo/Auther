@@ -13,7 +13,7 @@ const PaperCard: React.FC<PaperCardProps> = ({ paper }) => {
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow p-4 space-y-2">
-      <h2 className="text-lg font-bold">{paper.title}</h2>
+      <h2 className="text-lg text-black font-bold">{paper.title}</h2>
       <p className="text-sm text-gray-600">{paper.abstract}</p>
       <p className="text-xs text-gray-500">
         Authors: {paper.authors.join(", ")}
