@@ -9,7 +9,7 @@ import SearchBar from "../../components/SearchBar";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { AnimatePresence } from "framer-motion";
 import SkeletonCard from "@/components/SkeletonCard";
-
+import Link from "next/link";
 export default function ResultsPage() {
   const searchParams = useSearchParams();
   const query = searchParams?.get("query") ?? "";
@@ -45,8 +45,28 @@ export default function ResultsPage() {
       {/* Page content */}
       <div className="relative z-10 text-black dark:text-white transition-colors duration-300">
         <DarkModeToggle />
-        <div className="p-6 w-full max-w-6xl space-y-6 items-start text-left">
-          <SearchBar initialValue={query} />
+        <div className="p-6 w-full max-w-4xl mx-auto space-y-6 items-start text-left">
+          <div className="flex items-center gap-4 pl-6 mb-4">
+            {/* Logos, scaled down and grouped */}
+            <div className="flex items-center gap-2">
+              <Link href="/" className="flex items-center gap-2">
+                <img
+                  src="/autherlogolight.svg"
+                  alt="Auther Logo Light"
+                  className=" dark:hidden"
+                />
+                <img
+                  src="/autherlogodark.svg"
+                  alt="Auther Logo Dark"
+                  className="scale-100 hidden dark:block"
+                />
+              </Link>
+            </div>
+
+            {/* Search bar pushed left to align with cards */}
+            <SearchBar initialValue={query} />
+          </div>
+
           {loading && (
             <div className="space-y-4">
               <SkeletonCard />
