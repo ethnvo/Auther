@@ -10,7 +10,7 @@ SEMANTIC_SCHOLAR_PAPER  = "https://api.semanticscholar.org/graph/v1/paper"
 OPENALEX_WORKS         = "https://api.openalex.org/works"
 GENDERIZE_API          = "https://api.genderize.io"
 
-DEFAULT_LIMIT       = 5
+DEFAULT_LIMIT       = 10
 MAX_GENDERIZE_CALLS = 3       # lower cap for speed
 CACHE_TTL           = 60 * 60 # cache expansions 1hr
 
