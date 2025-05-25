@@ -20,6 +20,7 @@ export default function ResultsPage() {
     if (!query) return;
 
     setLoading(true);
+    setPapers([]); // 👈 clear old results
 
     fetchPapers(query)
       .then((data) => {
