@@ -49,6 +49,17 @@ python manage.py migrate
 python manage.py runserver
 # Open http://localhost:3000
 ```
+---
 
-test commit
+### ⚠️ Known Issues / Limitations
+Overly broad searches (e.g., "art") may not return results properly due to result overload or timeouts.
 
+Favorited results are partially implemented on the backend but not yet available in the UI (excluded due to deadline constraints).
+
+Search filters (e.g., After 2022 or Fully Authored by Women) are partially implemented and may produce incomplete results and/or extended load times.
+
+Some searches may appear to fail by showing blank results prematurely if the backend response is delayed.
+
+Failed searches may return nothing for up to 1 hour due to caching behavior.
+
+Author-based searches may be incomplete if the author appears under multiple name variations (e.g., Ethan Vo vs. Ethan K. Vo), leading to inconsistent tagging.
