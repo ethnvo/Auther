@@ -5,6 +5,9 @@ Our goal is to amplify women-led scholarship by ranking papers with women author
 
 > Built with 💻 Next.js + Django | Designed in Figma | Created for VenusHacks 2025
 
+### 🌐 Live Demo: [Try it here](https://auther-yifd-ll3n07pzg-ethan-vos-projects.vercel.app)
+
+### 🧠 Backend API: [https://auther-rdxl.onrender.com/api/papers/?search=soccer](https://auther-rdxl.onrender.com/api/papers/?search=soccer)
 ---
 
 ## 🔍 Features
