@@ -6,7 +6,7 @@ type RawPaper = Omit<Paper, "has_woman_author"> & {
 
 export async function fetchPapers(search: string): Promise<Paper[]> {
   const res = await fetch(
-    `http://127.0.0.1:8000/api/papers/?search=${encodeURIComponent(search)}`
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/papers/?search=${encodeURIComponent(search)}`
   );
 
   if (!res.ok) {
