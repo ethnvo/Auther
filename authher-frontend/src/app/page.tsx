@@ -11,6 +11,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("recentPapers") || "[]");
+
     setRecentPapers(saved);
   }, []);
 
@@ -53,17 +54,19 @@ export default function HomePage() {
             <ul className="space-y-3">
               {recentPapers.map((paper, idx) => (
                 <li key={idx}>
-                  <Link href={paper.link} target="_blank" className="block">
-                    <div className="p-3 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 space-y-1 hover:shadow-sm transition">
-                      <p className="font-medium text-black dark:text-white">
-                        {paper.title}
-                      </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {paper.authors?.join(", ")}
-                      </p>
-                      <GenderTag has_woman_author={paper.has_woman_author} />
-                    </div>
-                  </Link>
+                  <motion.div className="hover:scale-105 transition-all duration-300">
+                    <Link href={paper.link} target="_blank" className="block">
+                      <div className="p-3 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 space-y-1 hover:shadow-sm transition">
+                        <p className="font-medium text-black dark:text-white">
+                          {paper.title}
+                        </p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {paper.authors?.join(", ")}
+                        </p>
+                        <GenderTag has_woman_author={paper.has_woman_author} />
+                      </div>
+                    </Link>
+                  </motion.div>
                 </li>
               ))}
             </ul>
