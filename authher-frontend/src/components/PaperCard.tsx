@@ -1,12 +1,18 @@
 import React from "react";
 import { Paper } from "../types/Paper";
-import { useCallback } from "react";
 
 import { motion } from "framer-motion";
 
 interface PaperCardProps {
   paper: Paper;
 }
+
+type RecentPaper = {
+  title: string;
+  link: string;
+  authors: string[];
+  has_woman_author: boolean | null;
+};
 
 const PaperCard: React.FC<PaperCardProps> = ({ paper }) => {
   const genderTag = () => {
@@ -103,7 +109,7 @@ const PaperCard: React.FC<PaperCardProps> = ({ paper }) => {
             };
             const updated = [
               compact,
-              ...existing.filter((p: any) => p.link !== paper.link),
+              ...existing.filter((p: RecentPaper) => p.link !== paper.link),
             ].slice(0, 5);
             localStorage.setItem("recentPapers", JSON.stringify(updated));
           } catch (e) {

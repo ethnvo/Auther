@@ -2,7 +2,7 @@
 import React from "react";
 
 interface GenderTagProps {
-  has_woman_author: boolean | null | undefined;
+  has_woman_author: boolean | "uncertain" | null;
 }
 
 const GenderTag: React.FC<GenderTagProps> = ({ has_woman_author }) => {

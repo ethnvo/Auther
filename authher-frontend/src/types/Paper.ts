@@ -1,9 +1,9 @@
 export interface Paper {
-  id: any;
+  id: number | string;
   title: string;
   abstract: string;
   authors: string[];
   date: string;
-  has_woman_author: boolean | "uncertain";
+  has_woman_author: boolean | "uncertain" | null;
   link: string;
 }

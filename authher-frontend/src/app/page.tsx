@@ -6,8 +6,17 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import GenderTag from "@/components/GenderTag";
+import Image from "next/image";
+
+type RecentPaper = {
+  title: string;
+  link: string;
+  authors: string[];
+  has_woman_author: boolean | "uncertain" | null;
+};
+
 export default function HomePage() {
-  const [recentPapers, setRecentPapers] = useState<any[]>([]);
+  const [recentPapers, setRecentPapers] = useState<RecentPaper[]>([]);
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("recentPapers") || "[]");
@@ -28,15 +37,19 @@ export default function HomePage() {
 
         {/* Logo pushed up with top padding */}
         <div className="mt-64">
-          <img
+          <Image
             src="/autherlogolight.svg"
-            alt="logo"
-            className="w-64 scale-150 mb-6 dark:hidden"
+            alt="Auther Logo Light"
+            width={256}
+            height={256}
+            className="scale-150 mb-6 dark:hidden"
           />
-          <img
+          <Image
             src="/autherlogodark.svg"
-            alt="logo"
-            className="w-64 scale-150 mb-6 hidden dark:block"
+            alt="Auther Logo Dark"
+            width={256}
+            height={256}
+            className="scale-150 mb-6 hidden dark:block"
           />
         </div>
         <p className="text-center text-lg text-gray-600 dark:text-gray-400 max-w-md">
