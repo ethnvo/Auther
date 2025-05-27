@@ -51,28 +51,41 @@ export default function HomePage() {
             <h3 className="text-md font-semibold mb-2 text-gray-700 dark:text-gray-300">
               Recently Viewed
             </h3>
-            <ul className="space-y-3">
+            <motion.ul
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: {
+                  transition: { staggerChildren: 0.1 },
+                },
+                hidden: {},
+              }}
+              className="space-y-3"
+            >
               {recentPapers.map((paper, idx) => (
-                <li key={idx}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                  >
-                    <Link href={paper.link} target="_blank" className="block">
-                      <div className="p-3 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 space-y-1 hover:shadow-sm transition">
-                        <p className="font-medium text-black dark:text-white">
-                          {paper.title}
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {paper.authors?.join(", ")}
-                        </p>
-                        <GenderTag has_woman_author={paper.has_woman_author} />
-                      </div>
-                    </Link>
-                  </motion.div>
-                </li>
+                <motion.li
+                  key={idx}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  whileHover={{ scale: 1.03 }}
+                >
+                  <Link href={paper.link} target="_blank" className="block">
+                    <div className="p-3 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 space-y-1 hover:shadow-sm transition">
+                      <p className="font-medium text-black dark:text-white">
+                        {paper.title}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {paper.authors?.join(", ")}
+                      </p>
+                      <GenderTag has_woman_author={paper.has_woman_author} />
+                    </div>
+                  </Link>
+                </motion.li>
               ))}
-            </ul>
+            </motion.ul>
           </div>
         )}
       </div>
