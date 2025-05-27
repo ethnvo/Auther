@@ -54,7 +54,10 @@ export default function HomePage() {
             <ul className="space-y-3">
               {recentPapers.map((paper, idx) => (
                 <li key={idx}>
-                  <motion.div className="hover:scale-105 transition-all duration-300">
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                  >
                     <Link href={paper.link} target="_blank" className="block">
                       <div className="p-3 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 space-y-1 hover:shadow-sm transition">
                         <p className="font-medium text-black dark:text-white">
