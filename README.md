@@ -59,7 +59,7 @@ Overly broad searches (e.g., "art") may not return results properly due to resul
 
 Favorited results are partially implemented on the backend but not yet available in the UI (excluded due to deadline constraints).
 
-Search filters (e.g., After 2022 or Fully Authored by Women) are partially implemented and may produce incomplete results and/or extended load times.
+Search filters (e.g., After 2022 or Fully Authored by Women) are partially implemented (in the API, not implemented in frontend) and may produce incomplete results and/or extended load times.
 
 Some searches may appear to fail by showing blank results prematurely if the backend response is delayed.
 
