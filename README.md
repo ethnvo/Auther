@@ -25,7 +25,7 @@ Our goal is to amplify women-led scholarship by ranking papers with women author
 | ---------- | --------------------------------- |
 | Frontend   | Next.js, TypeScript, Tailwind CSS |
 | Backend    | Django, Django REST Framework     |
-| Database   | SQLite (MVP)                      |
+| Database   |  PostGresQL                       |
 | Gender API | genderize.io                      |
 
 ---
